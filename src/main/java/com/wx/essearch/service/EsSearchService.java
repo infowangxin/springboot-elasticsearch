@@ -23,14 +23,12 @@ public interface EsSearchService {
     /**
      * 搜索高亮显示，返回分页
      *
-     * @param pageNo     当前页
-     * @param pageSize   每页显示的总条数
-     * @param keyword    关键字
-     * @param indexName  索引库
-     * @param fieldNames 搜索的字段
+     * @param pageNo      当前页
+     * @param pageSize    每页显示的总条数
+     * @param productName 关键字
      * @return
      */
-    Page<ProductDocument> queryByPage(int pageNo, int pageSize, String keyword, String indexName, String... fieldNames);
+    Page<ProductDocument> queryByPage(int pageNo, int pageSize, String productName);
 
     /**
      * 删除索引库

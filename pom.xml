@@ -16,14 +16,14 @@
     <!-- 引用springboot -->
     <dependencyManagement>
         <dependencies>
-                <!-- springboot -->
+            <!-- springboot -->
             <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-dependencies</artifactId>
-                    <version>2.3.3.RELEASE</version>
-                    <type>pom</type>
-                    <scope>import</scope>
-                </dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.3.3.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -57,6 +57,10 @@
         </dependency>
 
         <!-- commons -->
+        <dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>

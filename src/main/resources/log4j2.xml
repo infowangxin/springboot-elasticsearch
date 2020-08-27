@@ -4,11 +4,12 @@
 
     <properties>
 		<!-- 定义变量 -->
-        <property name="LOG_DIR" value="./logs"/>
-		<property name="ROLLING_FILE_NAME" value="es"/>
-		<property name="NODE_NAME" value="${sys:clusternode:-defaultNode}"/>
+        <!--<property name="LOG_DIR" value="./logs"/>-->
+		<!--<property name="ROLLING_FILE_NAME" value="es"/>-->
+		<!--<property name="NODE_NAME" value="${sys:clusternode:-defaultNode}"/>-->
 		<!--<Property name="PATTERN_LAYOUT">${NODE_NAME} %d{yyyy/MM/dd HH:mm:ss,SSS} %-6r [%-6p] [%t] %C{1.}.%M-(%L) %msg%n</Property>-->
-		<Property name="PATTERN_LAYOUT">${NODE_NAME} %d{yyyy/MM/dd HH:mm:ss,SSS} %-6r [%-6p] [%t] %C.%M-(%L) %msg%n</Property>
+		<!--<Property name="PATTERN_LAYOUT">${NODE_NAME} %d{yyyy/MM/dd HH:mm:ss,SSS} %-6r [%-6p] [%t] %C.%M-(%L) %msg%n</Property>-->
+		<Property name="PATTERN_LAYOUT">%d{HH:mm:ss,SSS} %-6r [%-6p] [%t] %C.%M-(%L) %msg%n</Property>
 	</properties>
 
 	<Appenders>
@@ -17,23 +18,23 @@
 		</Console>
 
         <!-- 按日期，每天备份一个日志 -->
-        <RollingRandomAccessFile name="ROLLING_FILE"
-                                 fileName="${LOG_DIR}/${ROLLING_FILE_NAME}.log"
-                                 filePattern="${LOG_DIR}/${ROLLING_FILE_NAME}.%d{yyyyMMdd}.log">
-			 <PatternLayout pattern="${PATTERN_LAYOUT}"/>
-			 <Policies>
-				 <!-- 每24小时更新一次 -->
-                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-			 </Policies>
-			<DefaultRolloverStrategy>
-				<!-- maxDepth=1，只匹配当前一层目录 -->
-                <Delete basePath="${LOG_DIR}" maxDepth="1">
-                    <IfFileName glob="*.log"/>
-                    <!-- 单位：D、H、M、S，分别表示天、小时、分钟、秒 ，这里配置日志只保留1天-->
-                    <IfLastModified age="1D"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-		</RollingRandomAccessFile>
+        <!--<RollingRandomAccessFile name="ROLLING_FILE"-->
+        <!--                         fileName="${LOG_DIR}/${ROLLING_FILE_NAME}.log"-->
+        <!--                         filePattern="${LOG_DIR}/${ROLLING_FILE_NAME}.%d{yyyyMMdd}.log">-->
+		<!--	 <PatternLayout pattern="${PATTERN_LAYOUT}"/>-->
+		<!--	 <Policies>-->
+		<!--		 &lt;!&ndash; 每24小时更新一次 &ndash;&gt;-->
+        <!--         <TimeBasedTriggeringPolicy interval="1" modulate="true"/>-->
+		<!--	 </Policies>-->
+		<!--	<DefaultRolloverStrategy>-->
+		<!--		&lt;!&ndash; maxDepth=1，只匹配当前一层目录 &ndash;&gt;-->
+        <!--        <Delete basePath="${LOG_DIR}" maxDepth="1">-->
+        <!--            <IfFileName glob="*.log"/>-->
+        <!--            &lt;!&ndash; 单位：D、H、M、S，分别表示天、小时、分钟、秒 ，这里配置日志只保留1天&ndash;&gt;-->
+        <!--            <IfLastModified age="1D"/>-->
+        <!--        </Delete>-->
+        <!--    </DefaultRolloverStrategy>-->
+		<!--</RollingRandomAccessFile>-->
 	</Appenders>
 
 	<Loggers>
@@ -53,7 +54,7 @@
         <!-- Root Logger -->
         <Root level="INFO">
 			<AppenderRef ref="STDOUT"/>
-			<AppenderRef ref="ROLLING_FILE"/>
+			<!--<AppenderRef ref="ROLLING_FILE"/>-->
 		</Root>
 	</Loggers>
 

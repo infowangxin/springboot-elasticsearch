@@ -6,12 +6,16 @@ import com.wx.essearch.repository.ProductRepository;
 import com.wx.essearch.service.EsSearchService;
 import com.wx.util.IteratorUtil;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.stereotype.Service;
 
@@ -66,14 +70,23 @@ public class EsSearchServiceImpl implements EsSearchService {
 
     @Override
     public List<ProductDocument> query(String paramName, String keyword) {
-        QueryBuilder queryBuilder = QueryBuilders.termQuery(paramName, keyword);
+        QueryBuilder queryBuilder = QueryBuilders.matchPhrasePrefixQuery(paramName, keyword);
         Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
         return IteratorUtil.toList(iterable);
     }
 
     @Override
-    public Page<ProductDocument> queryByPage(int pageNo, int pageSize, String keyword, String indexName, String... fieldNames) {
-        return null;
+    public Page<ProductDocument> queryByPage(int pageNo, int pageSize, String productName) {
+        QueryBuilder queryBuilder = null;
+        if (StringUtils.isBlank(productName)) {
+            queryBuilder = QueryBuilders.matchAllQuery();
+        } else {
+            queryBuilder = QueryBuilders.fuzzyQuery("productName", productName);
+        }
+        log.info("queryName={}", queryBuilder.queryName());
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, "id");
+        Page<ProductDocument> page = productRepository.search(queryBuilder, pageable);
+        return page;
     }
 
     @Override
