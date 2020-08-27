@@ -11,13 +11,14 @@ import org.springframework.data.web.config.PageableHandlerMethodArgumentResolver
 @Configuration
 public class PageableConfig {
 
+    /*
+        spring data elasticsearch 页码从0开始，设置不了从1开始。
+        下面代码也没生效
+     */
+
     @Bean
     PageableHandlerMethodArgumentResolverCustomizer pageableResolverCustomizer() {
         return pageableResolver -> pageableResolver.setOneIndexedParameters(true);
     }
 
-    // @Bean
-    // SortHandlerMethodArgumentResolverCustomizer sortCustomizer() {
-    //     return s -> s.setPropertyDelimiter("<-->");
-    // }
 }
