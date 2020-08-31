@@ -1,8 +1,8 @@
 package com.wx.essearch;
 
 import com.alibaba.fastjson.JSON;
-import com.wx.essearch.document.ProductDocument;
-import com.wx.essearch.repository.ProductRepository;
+import com.wx.entity.document.HouseDocument;
+import com.wx.essearch.repository.HouseRepository;
 import com.wx.util.IteratorUtil;
 import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -37,7 +37,7 @@ public class QueryBuilderTest {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ProductRepository productRepository;
+    private HouseRepository houseRepository;
 
     /**
      * 查询所有文档
@@ -45,8 +45,8 @@ public class QueryBuilderTest {
     @Test
     public void matchAllQuery(){
         QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
                 
     }
@@ -70,8 +70,8 @@ public class QueryBuilderTest {
     public void matchQuery(){
         QueryBuilder queryBuilder = QueryBuilders.matchQuery("productDesc", "毛坯");
         // QueryBuilder queryBuilder = QueryBuilders.matchQuery("productDesc", "毛坯 商业");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -95,8 +95,8 @@ public class QueryBuilderTest {
     @Test
     public void commonTermsQuery(){
         QueryBuilder queryBuilder = QueryBuilders.commonTermsQuery("productDesc", "办公 商业");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -121,8 +121,8 @@ public class QueryBuilderTest {
     @Test
     public void multiMatchQuery(){
         QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery("productDesc", "办公 商业");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -145,8 +145,8 @@ public class QueryBuilderTest {
     @Test
     public void matchPhraseQuery(){
         QueryBuilder queryBuilder = QueryBuilders.matchPhraseQuery("productDesc", "住");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -169,8 +169,8 @@ public class QueryBuilderTest {
     @Test
     public void matchPhrasePrefix(){
         QueryBuilder queryBuilder = QueryBuilders.matchPhrasePrefixQuery("productDesc", "住");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -196,8 +196,8 @@ public class QueryBuilderTest {
         QueryBuilder queryBuilder = QueryBuilders.disMaxQuery()
                 .add(QueryBuilders.matchPhrasePrefixQuery("productDesc", "待查询的值"))
                 .add(QueryBuilders.matchPhraseQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -215,8 +215,8 @@ public class QueryBuilderTest {
     @Test
     public void idsQuery(){
         QueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds("idArray");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -240,8 +240,8 @@ public class QueryBuilderTest {
     @Test
     public void termQuery(){
         QueryBuilder queryBuilder = QueryBuilders.termQuery("productDesc", "待查询的值");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -267,8 +267,8 @@ public class QueryBuilderTest {
     @Test
     public void fuzzyQuery(){
         QueryBuilder queryBuilder = QueryBuilders.fuzzyQuery("productDesc", "待查询的值");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -292,8 +292,8 @@ public class QueryBuilderTest {
     @Test
     public void prefixQuery(){
         QueryBuilder queryBuilder = QueryBuilders.prefixQuery("productDesc", "待查询的值");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -318,8 +318,8 @@ public class QueryBuilderTest {
     @Test
     public void rangeQuery(){
         QueryBuilder queryBuilder = QueryBuilders.rangeQuery("待查询的字段").gte("下限").lte("上限");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -344,8 +344,8 @@ public class QueryBuilderTest {
     @Test
     public void wildcardQuery(){
         QueryBuilder queryBuilder = QueryBuilders.wildcardQuery("productDesc", "待查询的值");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -368,8 +368,8 @@ public class QueryBuilderTest {
     @Test
     public void regexpQuery(){
         QueryBuilder queryBuilder = QueryBuilders.regexpQuery("productDesc", "待查询的正则表达式");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -396,8 +396,8 @@ public class QueryBuilderTest {
         fields.put("待查询的字段w", QueryStringQueryBuilder.DEFAULT_BOOST);
 //        QueryBuilder queryBuilder = QueryBuilders.queryStringQuery("查询字符串").defaultField("待查询的字段");
         QueryBuilder queryBuilder = QueryBuilders.queryStringQuery("查询字符串").fields(fields);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -424,8 +424,8 @@ public class QueryBuilderTest {
         fields.put("待查询的字段w", QueryStringQueryBuilder.DEFAULT_BOOST);
 //        QueryBuilder queryBuilder = QueryBuilders.queryStringQuery("查询字符串").simpleQueryStringQuery("待查询的字段");
         QueryBuilder queryBuilder = QueryBuilders.simpleQueryStringQuery("查询字符串").fields(fields);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -455,8 +455,8 @@ public class QueryBuilderTest {
         QueryBuilder positiveQuery = QueryBuilders.wildcardQuery("productDesc", "待查询的值");
         QueryBuilder negativeQuery = QueryBuilders.wildcardQuery("productDesc", "待查询的值");
         QueryBuilder queryBuilder = QueryBuilders.boostingQuery(positiveQuery, negativeQuery).negativeBoost(0.1f);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -495,8 +495,8 @@ public class QueryBuilderTest {
                 .should(QueryBuilders.wildcardQuery("productDesc", "待查询的值"))
                 .mustNot(QueryBuilders.wildcardQuery("productDesc", "待查询的值"))
                 .filter(QueryBuilders.wildcardQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -518,8 +518,8 @@ public class QueryBuilderTest {
     @Test
     public void spanTermQuery(){
         QueryBuilder queryBuilder = QueryBuilders.spanTermQuery("productDesc", "待查询的值");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -546,8 +546,8 @@ public class QueryBuilderTest {
         QueryBuilder queryBuilder = QueryBuilders.spanFirstQuery(
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"),
                 3);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
 
     }
@@ -575,8 +575,8 @@ public class QueryBuilderTest {
         QueryBuilder queryBuilder = QueryBuilders.spanNearQuery(
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"),
                 12).addClause(QueryBuilders.spanTermQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -613,8 +613,8 @@ public class QueryBuilderTest {
         QueryBuilder queryBuilder = QueryBuilders.spanNotQuery(
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"),
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -638,8 +638,8 @@ public class QueryBuilderTest {
     public void spanOrQuery(){
         QueryBuilder queryBuilder = QueryBuilders.spanOrQuery(QueryBuilders.spanTermQuery("productDesc", "待查询的值"))
                 .addClause(QueryBuilders.spanTermQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -692,8 +692,8 @@ public class QueryBuilderTest {
                         QueryBuilders.spanTermQuery("productDesc", "待查询的值"),
                         12).addClause(QueryBuilders.spanTermQuery("productDesc", "待查询的值")),
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -746,8 +746,8 @@ public class QueryBuilderTest {
                         QueryBuilders.spanTermQuery("productDesc", "待查询的值"),
                         12).addClause(QueryBuilders.spanTermQuery("productDesc", "待查询的值")),
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -769,8 +769,8 @@ public class QueryBuilderTest {
     @Test
     public void spanMultiTermQueryBuilder(){
         QueryBuilder queryBuilder = QueryBuilders.spanMultiTermQueryBuilder(QueryBuilders.wildcardQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -815,8 +815,8 @@ public class QueryBuilderTest {
         QueryBuilder queryBuilder = QueryBuilders.fieldMaskingSpanQuery(
                 QueryBuilders.spanTermQuery("productDesc", "待查询的值"),
                 "待查询的字段");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -840,8 +840,8 @@ public class QueryBuilderTest {
     public void constantScoreQuery(){
         QueryBuilder queryBuilder = QueryBuilders.constantScoreQuery(
                 QueryBuilders.termQuery("productDesc", "待查询的值")).boost(1.2f);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -864,8 +864,8 @@ public class QueryBuilderTest {
     public void functionScoreQueryNoFunction(){
         QueryBuilder queryBuilder = QueryBuilders.functionScoreQuery(
                 QueryBuilders.termQuery("productDesc", "待查询的值"));
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -884,8 +884,8 @@ public class QueryBuilderTest {
                 ScoreFunctionBuilders.randomFunction().seed(1).setField("待查询的字段"));
         QueryBuilder queryBuilder = QueryBuilders.functionScoreQuery(
                 QueryBuilders.termQuery("productDesc", "待查询的值"),filterFunctionBuilders);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -914,8 +914,8 @@ public class QueryBuilderTest {
         String[] likes = new String[1];
         likes[0] = "待查询的值";
         QueryBuilder queryBuilder = QueryBuilders.moreLikeThisQuery(likes);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -943,8 +943,8 @@ public class QueryBuilderTest {
     public void nestedQuery(){
         QueryBuilder query = QueryBuilders.matchQuery("类型为nested的字段名.类型为nested的字段里的字段名", "待查询的值");
         QueryBuilder queryBuilder = QueryBuilders.nestedQuery("类型为nested的字段名", query, ScoreMode.None);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -971,8 +971,8 @@ public class QueryBuilderTest {
         values[0] = "待查询的值1";
         values[1] = "待查询的值2";
         QueryBuilder queryBuilder = QueryBuilders.termsQuery("productDesc", values);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -993,8 +993,8 @@ public class QueryBuilderTest {
     @Test
     public void wrapperQuery(){
         QueryBuilder queryBuilder = QueryBuilders.wrapperQuery("eyJ0ZXJtIiA6IHsgIuW+heafpeivoueahOWtl+autSI6ICLlvoXmn6Xor6LnmoTlgLwiIH19");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -1014,8 +1014,8 @@ public class QueryBuilderTest {
     @Test
     public void typeQuery(){
         QueryBuilder queryBuilder = QueryBuilders.typeQuery("待查询类型");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -1042,8 +1042,8 @@ public class QueryBuilderTest {
     public void termsLookupQuery(){
         TermsLookup termsLookup = new TermsLookup("作为查询条件的索引", "作为查询条件的文档类型", "作为查询条件的文档的id", "作为查询条件的字段");
         QueryBuilder queryBuilder = QueryBuilders.termsLookupQuery("productDesc", termsLookup);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -1076,8 +1076,8 @@ public class QueryBuilderTest {
         Script script = new Script(ScriptType.INLINE, Script.DEFAULT_SCRIPT_LANG,
                 "doc['自定字段'].value > params.param1", params);
         QueryBuilder queryBuilder = QueryBuilders.scriptQuery(script);
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 
@@ -1097,8 +1097,8 @@ public class QueryBuilderTest {
     @Test
     public void existsQuery(){
         QueryBuilder queryBuilder = QueryBuilders.existsQuery("待查询字段");
-        Iterable<ProductDocument> iterable = productRepository.search(queryBuilder);
-        List<ProductDocument> list = IteratorUtil.toList(iterable);
+        Iterable<HouseDocument> iterable = houseRepository.search(queryBuilder);
+        List<HouseDocument> list = IteratorUtil.toList(iterable);
         log.info("{}", JSON.toJSONString(list,true));
     }
 }

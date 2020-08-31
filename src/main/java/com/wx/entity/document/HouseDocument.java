@@ -1,5 +1,6 @@
-package com.wx.essearch.document;
+package com.wx.entity.document;
 
+import com.wx.constant.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Mapping;
@@ -12,17 +13,17 @@ import java.util.Date;
  *
  * @author vincent
  */
-@Document(indexName = "orders", type = "product")
-@Mapping(mappingPath = "productIndex.json") // 解决IK分词不能使用问题
-public class ProductDocument implements Serializable {
+@Document(indexName = Constants.INDEX_NAME)
+@Mapping(mappingPath = "house.json") // 解决IK分词不能使用问题
+public class HouseDocument implements Serializable {
 
     private static final long serialVersionUID = -4819387659362663519L;
     @Id
     private Long id;
     //@Field(analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
-    private String productName;
+    private String houseName;
     //@Field(analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
-    private String productDesc;
+    private String houseTags;
 
     private Date createTime;
 
@@ -36,20 +37,20 @@ public class ProductDocument implements Serializable {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getHouseName() {
+        return houseName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
     }
 
-    public String getProductDesc() {
-        return productDesc;
+    public String getHouseTags() {
+        return houseTags;
     }
 
-    public void setProductDesc(String productDesc) {
-        this.productDesc = productDesc;
+    public void setHouseTags(String houseTags) {
+        this.houseTags = houseTags;
     }
 
     public Date getCreateTime() {
@@ -68,21 +69,14 @@ public class ProductDocument implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public ProductDocument() {
+    public HouseDocument() {
 
     }
 
-    public ProductDocument(String productName, String productDesc, Date createTime, Date updateTime) {
-        this.productName = productName;
-        this.productDesc = productDesc;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
-
-    public ProductDocument(Long id, String productName, String productDesc, Date createTime, Date updateTime) {
+    public HouseDocument(Long id, String houseName, String houseTags, Date createTime, Date updateTime) {
         this.id = id;
-        this.productName = productName;
-        this.productDesc = productDesc;
+        this.houseName = houseName;
+        this.houseTags = houseTags;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }

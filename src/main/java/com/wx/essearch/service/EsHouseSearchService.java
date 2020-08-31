@@ -1,6 +1,7 @@
 package com.wx.essearch.service;
 
-import com.wx.essearch.document.ProductDocument;
+import com.wx.entity.document.HouseDocument;
+import com.wx.entity.vo.HouseVo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author vincent
  */
-public interface EsSearchService {
+public interface EsHouseSearchService {
 
     /**
      * 搜 索
@@ -18,17 +19,17 @@ public interface EsSearchService {
      * @param keyword
      * @return
      */
-    List<ProductDocument> query(String paramName, String keyword);
+    List<HouseDocument> query(String paramName, String keyword);
 
     /**
      * 搜索高亮显示，返回分页
      *
-     * @param pageNo      当前页
-     * @param pageSize    每页显示的总条数
-     * @param productName 关键字
+     * @param pageNo   当前页
+     * @param pageSize 每页显示的总条数
+     * @param vo       查询参数VO
      * @return
      */
-    Page<ProductDocument> queryByPage(int pageNo, int pageSize, String productName);
+    Page<HouseDocument> queryByPage(int pageNo, int pageSize, HouseVo vo);
 
     /**
      * 删除索引库
@@ -41,7 +42,7 @@ public interface EsSearchService {
     /**
      * 保存
      */
-    void save(List<ProductDocument> productDocuments);
+    void save(List<HouseDocument> productDocuments);
 
     /**
      * 删除
@@ -61,12 +62,12 @@ public interface EsSearchService {
      * @param id
      * @return
      */
-    ProductDocument getById(Long id);
+    HouseDocument getById(Long id);
 
     /**
      * 查询全部
      *
      * @return
      */
-    List<ProductDocument> getAll();
+    List<HouseDocument> getAll();
 }
