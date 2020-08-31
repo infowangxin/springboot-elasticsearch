@@ -1,8 +1,8 @@
 package com.wx.essearch;
 
+import com.alibaba.fastjson.JSON;
 import com.wx.entity.vo.HouseVo;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -10,6 +10,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.elasticsearch.search.sort.FieldSortBuilder;
@@ -19,12 +20,20 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -90,10 +99,10 @@ public class RestHighLevelClientTest {
     public void search() throws ParseException {
         HouseVo vo = new HouseVo();
         // vo.setId(1L);
-        vo.setHouseName("阜兴世纪公馆");
-        vo.setHouseTags("浦东");
-        vo.setCreateTime(DateUtils.parseDate("2021-08-01", "yyyy-MM-dd"));
-        vo.setUpdateTime(DateUtils.parseDate("2021-08-01", "yyyy-MM-dd"));
+        // vo.setHouseName("阜兴世纪公馆");
+        // vo.setHouseTags("浦东");
+        // vo.setCreateTime(DateUtils.parseDate("2021-08-01", "yyyy-MM-dd"));
+        // vo.setUpdateTime(DateUtils.parseDate("2021-08-01", "yyyy-MM-dd"));
 
         // 指定索引
         SearchRequest searchRequest = new SearchRequest().indices("house");
@@ -110,20 +119,43 @@ public class RestHighLevelClientTest {
         // 排除字段
         String[] excludes = new String[]{"createTime"};
 
+        Integer pageNo = 1, pageSize = 5;
+
+        //init
+        if (pageSize == null || pageSize < 0) {
+            pageSize = 10;
+        }
+        if (pageNo == null || pageNo < 0) {
+            pageNo = 1;
+        }
+        Integer from = (pageNo - 1) * pageSize;
+        if (from <= 0) {
+            from = 0;
+        }
+
         FetchSourceContext fetchSourceContext = new FetchSourceContext(true, includes, excludes);
         sourceBuilder.fetchSource(fetchSourceContext);
-        sourceBuilder.from();
-        sourceBuilder.size();
+        sourceBuilder.from(from);
+        sourceBuilder.size(pageSize);
 
         // 指定字段排序
         sourceBuilder.sort(new FieldSortBuilder("id").order(SortOrder.ASC));
 
         searchRequest.source(sourceBuilder);
 
+
         try {
-            SearchResponse sr = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-            String result = sr.toString();
-            System.out.println(result);
+            SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            SearchHit[] searchHits = response.getHits().getHits();
+            List<HouseVo> results = Arrays.stream(searchHits)
+                    .map(hit -> JSON.parseObject(hit.getSourceAsString(), HouseVo.class))
+                    .collect(Collectors.toList());
+            Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, "id");
+            long total = response.getHits().getTotalHits().value;
+            log.info("# total={}", total);
+            Page<HouseVo> page = new PageImpl<>(results, pageable, total);
+            log.info("\ntotalElements={},totalPages={},number={},numberOfElements={}", page.getTotalElements(), page.getTotalPages(), page.getNumber(), page.getNumberOfElements());
+            log.info("# {}", JSON.toJSONString(page, true));
         } catch (Exception e) {
             e.printStackTrace();
         }
