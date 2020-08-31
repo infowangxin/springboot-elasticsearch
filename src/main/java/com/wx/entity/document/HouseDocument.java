@@ -18,10 +18,13 @@ import java.util.Date;
 public class HouseDocument implements Serializable {
 
     private static final long serialVersionUID = -4819387659362663519L;
+
     @Id
     private Long id;
-    //@Field(analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
+
+    // @Field(analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
     private String houseName;
+
     //@Field(analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
     private String houseTags;
 

@@ -16,10 +16,10 @@ public interface EsHouseSearchService {
     /**
      * 搜 索
      *
-     * @param keyword
+     * @param vo 查询参数VO
      * @return
      */
-    List<HouseDocument> query(String paramName, String keyword);
+    List<HouseDocument> query(HouseVo vo);
 
     /**
      * 搜索高亮显示，返回分页
@@ -30,6 +30,15 @@ public interface EsHouseSearchService {
      * @return
      */
     Page<HouseDocument> queryByPage(int pageNo, int pageSize, HouseVo vo);
+    /**
+     * 搜索高亮显示，返回分页
+     *
+     * @param pageNo   当前页
+     * @param pageSize 每页显示的总条数
+     * @param vo       查询参数VO
+     * @return
+     */
+    Page<HouseVo> queryPage(int pageNo, int pageSize, HouseVo vo);
 
     /**
      * 删除索引库

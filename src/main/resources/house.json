@@ -1,16 +1,11 @@
 {
-  "_source": {
-    "enabled": false
-  },
   "properties": {
     "createTime": {
       "type": "long",
       "store": true
     },
     "houseName": {
-      "type": "text",
-      "analyzer": "ik_max_word",
-      "search_analyzer": "ik_max_word",
+      "type": "keyword",
       "store": true
     },
     "houseTags": {

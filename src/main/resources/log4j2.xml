@@ -39,7 +39,9 @@
 
 	<Loggers>
 		<logger name="com.wx" level="DEBUG"/>
+		<logger name="org.springframework.data.elasticsearch" level="DEBUG"/>
 		<logger name="org.elasticsearch.client.RequestLogger" level="DEBUG"/>
+		<logger name="org.elasticsearch" level="DEBUG"/>
 		<!--<logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="INFO"/>-->
 
         <!-- sql log -->
